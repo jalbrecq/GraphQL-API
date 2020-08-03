@@ -1,0 +1,12 @@
+body {
+  background: #eee;
+  font-family:"Arial";
+}
+
+ul#bike-list{
+  list-style: none; /* Remove default bullets */
+}
+
+ul#bike-list li::before {
+  content: "🚴";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+}
