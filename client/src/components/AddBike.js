@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import {flowRight} from 'lodash';
 import {getCreatorsQuery, addBikeMutation, getBikesQuery} from '../queries/queries';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 class AddBike extends Component {
   constructor(props){
@@ -9,14 +11,21 @@ class AddBike extends Component {
     this.state={
       title: '',
       type: '',
-      creatorId: ''
+      creatorId: '',
+      error: false
     };
   };
 
   displayCreators(){
     var data = this.props.getCreatorsQuery;
-    if (data.loading){
+    if (data.loading && !data.error){
       return(<option>Loading creators...</option>)
+    }
+    else if(data.error) {
+      if(!this.state.error){
+        this.setState({error: true});
+      }
+      return(<option>Error while loading creators</option>)
     }
     else {
       return data.creators.map(creator => {
@@ -43,29 +52,29 @@ class AddBike extends Component {
 
   render() {
     return (
-      <form id="add-bike" onSubmit={this.submitForm.bind(this)}>
+      <div id="addBike">
+        <h2>Add a bike</h2>
+        <Form inline id="add-bike" onSubmit={this.submitForm.bind(this)}>
+          <Form.Group onChange={(e) => this.setState({title: e.target.value})}>
+            <Form.Label className="my-1 mr-1" htmlFor="formTitle">Bike title:</Form.Label>
+            <Form.Control className="my-1 mr-sm-3" id="formTitle" type="text" placeholder="Enter the bike's title" />
+          </Form.Group>
 
-        <div className="field">
-          <label>Bike title:</label>
-          <input type="text" onChange={(e) => this.setState({title: e.target.value})}/>
-        </div>
+          <Form.Group onChange={(e) => this.setState({type: e.target.value})}>
+            <Form.Label className="my-1 mr-1" htmlFor="formType">Type:</Form.Label>
+            <Form.Control className="my-1 mr-sm-3" id="formType" type="text" placeholder="Enter the bike's type" />
+          </Form.Group>
 
-        <div className="field">
-          <label>Type:</label>
-          <input type="text" onChange={(e) => this.setState({type: e.target.value})}/>
-        </div>
-
-        <div className="field">
-          <label>Creator:</label>
-          <select onChange={(e) => this.setState({creatorId: e.target.value})}>
-            <option value="">Select creator</option>
-            {this.displayCreators()}
-          </select>
-        </div>
-
-        <button>+</button>
-
-      </form>
+          <Form.Group onChange={(e) => this.setState({creatorId: e.target.value})}>
+            <Form.Label className="my-1 mr-1" htmlFor="formCreator" >Select a creator:</Form.Label>
+            <Form.Control className="my-1 mr-sm-3 " id="formCreator" as="select">
+              {this.displayCreators()}
+            </Form.Control>
+            {this.state.error ? <Form.Control.Feedback type="error">Error while loading the creators</Form.Control.Feedback> : null}
+          </Form.Group>
+          <Button className="my-1" variant="dark" type="submit">+</Button>
+        </Form>
+      </div>
     );
   };
 };
