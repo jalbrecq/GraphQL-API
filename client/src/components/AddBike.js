@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import {flowRight} from 'lodash';
+
+// queries
 import {getCreatorsQuery, addBikeMutation, getBikesQuery} from '../queries/queries';
+
+// components
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
 
 class AddBike extends Component {
   constructor(props){
@@ -12,20 +17,21 @@ class AddBike extends Component {
       title: '',
       type: '',
       creatorId: '',
-      error: false
+      error: false,
+      validated: false
     };
   };
 
   displayCreators(){
     var data = this.props.getCreatorsQuery;
     if (data.loading && !data.error){
-      return(<option>Loading creators...</option>)
+      return(<option>Loading creators...</option>);
     }
     else if(data.error) {
       if(!this.state.error){
         this.setState({error: true});
       }
-      return(<option>Error while loading creators</option>)
+      return null;
     }
     else {
       return data.creators.map(creator => {
@@ -33,48 +39,84 @@ class AddBike extends Component {
           <option key={creator.id} value={creator.id}>
             {creator.name}
           </option>
-        )
+        );
       });
     }
   };
 
   submitForm(e){
-    e.preventDefault();
-    this.props.addBikeMutation({
-      variables: {
-        title: this.state.title,
-        type: this.state.type,
-        creatorId: this.state.creatorId
-      },
-      refetchQueries: [{query: getBikesQuery}]
-    });
+    const form = e.currentTarget;
+
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    else{
+      e.preventDefault();
+      this.props.addBikeMutation({
+        variables: {
+          title: this.state.title,
+          type: this.state.type,
+          creatorId: this.state.creatorId
+        },
+        refetchQueries: [{query: getBikesQuery}]
+      });
+    }
+    this.setState({validated: true});
+    form.reset();
   };
 
   render() {
     return (
-      <div id="addBike">
+      <Container id="addBike" className="p-2">
         <h2>Add a bike</h2>
-        <Form inline id="add-bike" onSubmit={this.submitForm.bind(this)}>
-          <Form.Group onChange={(e) => this.setState({title: e.target.value})}>
-            <Form.Label className="my-1 mr-1" htmlFor="formTitle">Bike title:</Form.Label>
-            <Form.Control className="my-1 mr-sm-3" id="formTitle" type="text" placeholder="Enter the bike's title" />
+        <Form noValidate validated={this.state.validated} id="add-bike-form" onSubmit={this.submitForm.bind(this)}>
+          <Form.Group>
+            <Form.Label htmlFor="formTitle">Bike title:</Form.Label>
+            <Form.Control
+              value={this.state.title}
+              onChange={(e) => this.setState({title: e.target.value})}
+              required
+              id="formTitle"
+              type="text"
+              placeholder="Enter the bike's title"
+            />
+            <Form.Control.Feedback>Good choice!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">Please provide a title.</Form.Control.Feedback>
           </Form.Group>
 
-          <Form.Group onChange={(e) => this.setState({type: e.target.value})}>
-            <Form.Label className="my-1 mr-1" htmlFor="formType">Type:</Form.Label>
-            <Form.Control className="my-1 mr-sm-3" id="formType" type="text" placeholder="Enter the bike's type" />
+          <Form.Group>
+            <Form.Label htmlFor="formType">Type:</Form.Label>
+            <Form.Control
+              value={this.state.type}
+              onChange={(e) => this.setState({type: e.target.value})}
+              required
+              id="formType"
+              type="text"
+              placeholder="Enter the bike's type"
+            />
+            <Form.Control.Feedback>My favourite type of bike</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">I think you forgot the type.</Form.Control.Feedback>
           </Form.Group>
 
-          <Form.Group onChange={(e) => this.setState({creatorId: e.target.value})}>
-            <Form.Label className="my-1 mr-1" htmlFor="formCreator" >Select a creator:</Form.Label>
-            <Form.Control className="my-1 mr-sm-3 " id="formCreator" as="select">
+          <Form.Group>
+            <Form.Label htmlFor="formCreator" >Select a creator:</Form.Label>
+            <Form.Control
+              value={this.state.creatorId}
+              onChange={(e) => this.setState({creatorId: e.target.value})}
+              required
+              id="formCreator"
+              as="select"
+            >
+              <option value=''>--- Choose a creator --- </option>
               {this.displayCreators()}
             </Form.Control>
-            {this.state.error ? <Form.Control.Feedback type="error">Error while loading the creators</Form.Control.Feedback> : null}
+            <Form.Control.Feedback>Nice choice!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">Each bike has a creator, please choose one</Form.Control.Feedback>
           </Form.Group>
-          <Button className="my-1" variant="dark" type="submit">+</Button>
+          <Button className="mr-1" variant="dark" type="submit">Add bike</Button>
         </Form>
-      </div>
+      </Container>
     );
   };
 };

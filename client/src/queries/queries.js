@@ -43,6 +43,15 @@ const getBikeQuery = gql`
        }
      }
    }
- }`
+ }`;
 
-export {getBikesQuery, getCreatorsQuery, addBikeMutation, getBikeQuery};
+const removeBikeMutation = gql`
+  mutation($id: ID!) {
+    removeBike(id: $id) {
+      id
+      title
+    }
+  }
+`
+
+export {getBikesQuery, getCreatorsQuery, addBikeMutation, getBikeQuery, removeBikeMutation};

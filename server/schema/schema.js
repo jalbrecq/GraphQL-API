@@ -50,6 +50,7 @@ const RootQuery = new GraphQLObjectType({
     fields: {
         bike: {
             type: BikeType,
+            description: 'Return a bike by id',
             args: {id : {type: GraphQLID}},
             resolve(parent, args){
                 // Code to get data from db/other source
@@ -58,6 +59,7 @@ const RootQuery = new GraphQLObjectType({
         },
         creator: {
             type: CreatorType,
+            description: 'Return a creator by id',
             args: {id : {type: GraphQLID}},
             resolve(parent, args){
                 // Code to get data from db/other source
@@ -66,6 +68,7 @@ const RootQuery = new GraphQLObjectType({
         },
         bikes: {
             type: GraphQLList(BikeType),
+            description: 'Return all the bikes',
             resolve(parent, args){
                 // Code to get data from db/other source
                 return Bike.find({})
@@ -73,6 +76,7 @@ const RootQuery = new GraphQLObjectType({
         },
         creators: {
             type: GraphQLList(CreatorType),
+            description: 'Return all the creators',
             resolve(parent, args){
                 // Code to get data from db/other source
                 return Creator.find({})
@@ -86,6 +90,7 @@ const Mutation = new GraphQLObjectType({
     fields: {
         addCreator: {
             type: CreatorType,
+            description: 'Add a creator to the data base',
             args: {
                 name: {type: new GraphQLNonNull(GraphQLString)},
                 age: {type: new GraphQLNonNull(GraphQLInt)}
@@ -100,6 +105,7 @@ const Mutation = new GraphQLObjectType({
         },
         addBike: {
             type: BikeType,
+            description: 'Add a bike to the data base',
             args: {
                 title: {type: new GraphQLNonNull(GraphQLString)},
                 type: {type:new GraphQLNonNull(GraphQLString)},
@@ -112,6 +118,16 @@ const Mutation = new GraphQLObjectType({
                     creatorId: args.creatorId
                 });
                 return bike.save()
+            }
+        },
+        removeBike: {
+            type: BikeType,
+            description: "Remove a bike by id",
+            args: {
+                id: {type: new GraphQLNonNull(GraphQLID)}
+            },
+            resolve(parent, { id }){
+                return Bike.findByIdAndRemove(id);
             }
         }
     }
