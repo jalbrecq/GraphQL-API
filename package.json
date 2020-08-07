@@ -2,9 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "GraphQL Node Server",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
   "author": "Jean Albrecq",
   "license": "ISC",
@@ -14,6 +15,7 @@
     "express-graphql": "^0.11.0",
     "graphql": "^15.3.0",
     "lodash": "^4.17.19",
-    "mongoose": "^5.9.27"
+    "mongoose": "^5.9.27",
+    "path": "^0.12.7"
   }
 }

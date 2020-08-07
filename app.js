@@ -4,10 +4,11 @@ const { graphql } = require('graphql');
 const schema = require('./schema/schema');
 const mongoose = require('mongoose')
 const cors = require('cors')
+const path = require('path');
 
 const app = express();
 
-app.use(express.static("client/build"))
+app.use('/', express.static(path.join(__dirname, '/client/build')));
 
 // allow cross-origin requests
 app.use(cors());
@@ -28,6 +29,11 @@ app.use('/graphql', graphqlHTTP({
     schema, // same as: schema: schema
     graphiql: true
 }));
+
+// Handles any requests that don't match the ones above
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 app.listen(process.env.PORT || 4000, ()=>{
     console.log("Now listening for requests ...");
