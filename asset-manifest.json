@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/GraphQL-API/static/css/main.c2998ded.chunk.css",
+    "main.js": "/GraphQL-API/static/js/main.02870eba.chunk.js",
+    "main.js.map": "/GraphQL-API/static/js/main.02870eba.chunk.js.map",
+    "runtime-main.js": "/GraphQL-API/static/js/runtime-main.a2484b8d.js",
+    "runtime-main.js.map": "/GraphQL-API/static/js/runtime-main.a2484b8d.js.map",
+    "static/css/2.af3c1da9.chunk.css": "/GraphQL-API/static/css/2.af3c1da9.chunk.css",
+    "static/js/2.e00e036f.chunk.js": "/GraphQL-API/static/js/2.e00e036f.chunk.js",
+    "static/js/2.e00e036f.chunk.js.map": "/GraphQL-API/static/js/2.e00e036f.chunk.js.map",
+    "index.html": "/GraphQL-API/index.html",
+    "precache-manifest.90fa7660d024d553bb34952062539d3e.js": "/GraphQL-API/precache-manifest.90fa7660d024d553bb34952062539d3e.js",
+    "service-worker.js": "/GraphQL-API/service-worker.js",
+    "static/css/2.af3c1da9.chunk.css.map": "/GraphQL-API/static/css/2.af3c1da9.chunk.css.map",
+    "static/css/main.c2998ded.chunk.css.map": "/GraphQL-API/static/css/main.c2998ded.chunk.css.map",
+    "static/js/2.e00e036f.chunk.js.LICENSE.txt": "/GraphQL-API/static/js/2.e00e036f.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a2484b8d.js",
+    "static/css/2.af3c1da9.chunk.css",
+    "static/js/2.e00e036f.chunk.js",
+    "static/css/main.c2998ded.chunk.css",
+    "static/js/main.02870eba.chunk.js"
+  ]
+}
