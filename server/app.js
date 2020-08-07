@@ -7,8 +7,6 @@ const cors = require('cors')
 
 const app = express();
 
-app.use(express.static("client/build"))
-
 // allow cross-origin requests
 app.use(cors());
 

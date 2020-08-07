@@ -45,12 +45,16 @@ class BikeList extends Component {
           return(
             <Card key={index}>
               <Card.Header>
-                <div className="row justify-content-between">
-                  <Accordion.Toggle className="col-2" as={Button} variant="light" eventKey={bike.id} onClick={(e) => {this.setState({selected: bike.id});}}>
-                    {bike.title}
-                  </Accordion.Toggle>
-                  <RemoveBike className="col-2" bikeId={bike.id}/>
-                </div>
+                <Accordion.Toggle
+                  as={Button}
+                  variant="light"
+                  eventKey={bike.id}
+                  onClick={(e) => {this.setState({selected: bike.id});}}
+                >
+                  {bike.title}
+                </Accordion.Toggle>
+                <Button onClick={(e) => alert("update button trigered")}>Update</Button>
+                <RemoveBike bikeId={bike.id}/>
               </Card.Header>
               <Accordion.Collapse eventKey={bike.id}>
                 <Card.Body>
