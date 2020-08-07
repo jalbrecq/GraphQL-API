@@ -8,7 +8,7 @@ import AddBike from './components/AddBike';
 
 // apollo client setup
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql'
+  uri: 'https://the-bike-list.herokuapp.com/graphql'
 });
 
 class App extends Component {
